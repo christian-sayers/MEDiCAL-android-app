@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_newpill"
+        android:icon="@drawable/plus_symbol"
+        android:title="@string/title_newpill" />
+
+    <item
+        android:id="@+id/navigation_refill"
+        android:icon="@drawable/refill_symbol"
+        android:title="@string/title_refill" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/profile_b"
+        android:title="@string/title_profile" />
+</menu>
