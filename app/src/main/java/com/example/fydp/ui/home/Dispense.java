@@ -37,7 +37,7 @@ public class Dispense extends AppCompatActivity {
         Intent intent = getIntent();
         String name = intent.getStringExtra("pillName");
         pillName = findViewById(R.id.textViewDisp1);
-        pillName.setText("4:00 PM - Advil");
+        pillName.setText(name);
 
         retButton = findViewById(R.id.retButton);
         retButton.setOnClickListener(new View.OnClickListener() {

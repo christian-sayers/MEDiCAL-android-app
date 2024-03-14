@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +18,6 @@ import android.widget.TimePicker;
 
 import com.example.fydp.MainActivity;
 import com.example.fydp.R;
-import com.example.fydp.databinding.ActivityMainBinding;
-import com.example.fydp.ui.home.Dispense;
-import com.example.fydp.ui.home.HomeFragment;
-import com.example.fydp.ui.profile.ProfileFragment;
 
 public class NewPillFragment extends Fragment {
 

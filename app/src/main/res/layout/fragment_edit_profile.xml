@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/profile_container"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    tools:context=".ui.profile.EditProfileFragment">
 
     <LinearLayout
         android:layout_width="250dp"
@@ -18,62 +20,58 @@
             android:layout_height="wrap_content"
             android:text="Profile"
             android:textSize="24sp" />
-        <!--android:textColor="@android:color/darker_gray"-->
+
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Info"
             android:textSize="20sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="#">
+            android:orientation="horizontal">
+
             <Space
-                android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_width="7dp"
+                android:layout_height="210dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/nameValue"
+
+                <EditText
+                    android:id="@+id/nameInput"
                     android:layout_width="250dp"
                     android:layout_height="60dp"
                     android:ems="10"
-                    android:gravity="center_vertical"
-                    android:text="Name: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/phoneValue"
-                    android:layout_width="250dp"
-                    android:layout_height="60dp"
-                    android:ems="10"
-                    android:gravity="center_vertical"
-                    android:text="Phone Number: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/emailValue"
+                    android:hint="Name"
+                    android:inputType="textPersonName" />
+                <EditText
+                    android:id="@+id/phoneInput"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:ems="10"
-                    android:gravity="center_vertical"
-                    android:hint="Email: "
-                    android:inputType="textEmailAddress"
-                    android:textSize="18sp" />
+                    android:hint="Phone Number"
+                    android:inputType="phone" />
 
-                <TextView
-                    android:id="@+id/passValue"
+                <EditText
+                    android:id="@+id/emailInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress" />
+
+                <EditText
+                    android:id="@+id/passInput"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:ems="10"
-                    android:gravity="center_vertical"
-                    android:hint="Password: "
-                    android:textSize="18sp" />
+                    android:hint="Password"
+                    android:inputType="textPassword" />
             </LinearLayout>
         </LinearLayout>
 
@@ -87,49 +85,45 @@
             android:layout_height="wrap_content"
             android:text="Emergency Contact"
             android:textSize="20sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <Space
-                android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_width="7dp"
+                android:layout_height="84dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/emergNameValue"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:ems="10"
-                    android:gravity="center_vertical"
-                    android:hint="Name: "
-                    android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/emergPhoneValue"
+                <EditText
+                    android:id="@+id/emergNameInput"
+                    android:layout_width="250dp"
+                    android:layout_height="60dp"
+                    android:ems="10"
+                    android:hint="Name"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/emergPhoneInput"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:ems="10"
-                    android:gravity="center_vertical"
-                    android:hint="Phone Number: "
-                    android:textSize="18sp" />
+                    android:hint="Phone Number"
+                    android:inputType="phone" />
             </LinearLayout>
         </LinearLayout>
 
-                <Button
-                    android:id="@+id/editInfoButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="61dp"
-                    android:text="Edit Information" />
-
-                <Space
-                    android:layout_width="13dp"
-                    android:layout_height="152dp" />
-
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:text="Submit" />
 
     </LinearLayout>
+
 </RelativeLayout>

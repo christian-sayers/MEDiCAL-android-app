@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 
 import com.example.fydp.MainActivity;
 import com.example.fydp.R;
-import com.example.fydp.ui.profile.ProfileFragment;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,11 +1,13 @@
 package com.example.fydp.ui.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -17,30 +19,13 @@ import com.example.fydp.R;
 import com.example.fydp.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
-
-//    String name, email, phone, emergName, emergPhone, pass;
-//    EditText nameInput;
-//    EditText emailInput;
-//    EditText phoneInput;
-//    EditText passInput;
-//    EditText emergNameInput;
-//    EditText emergPhoneInput;
-
     Button pillButton1, pillButton2;
-
-    // TODO: Rename and change types of parameters
 
     public HomeFragment() {
         // Required empty public constructor
 
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static com.example.fydp.ui.home.HomeFragment newInstance() {
         com.example.fydp.ui.home.HomeFragment fragment = new com.example.fydp.ui.home.HomeFragment();
         return fragment;
@@ -54,33 +39,47 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.fragment_profile);
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        pillButton1 = rootView.findViewById(R.id.pillButton1);
-        pillButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), Dispense.class);
-                String pill = "Advil";
-                intent.putExtra("key", pill);
-                startActivity(intent);
+        String[] elements = {"Button 1", "Button 2", "Button 3"};
+
+        LinearLayout layout = rootView.findViewById(R.id.buttonLayout);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, // width
+            LinearLayout.LayoutParams.WRAP_CONTENT // height
+        );
+
+        int backC = getResources().getColor(R.color.blue_500);
+        int textC = getResources().getColor(R.color.white);
+
+        for (int i = 0; i < elements.length; i++) {
+            // Create a new button
+            Button button = new Button(requireActivity());
+            // Set button text
+            button.setText(elements[i]);
+
+            if (i > 0) {
+                layoutParams.setMargins(0, 16, 0, 0); // Top margin between buttons
             }
-        });
-//        pillButton2 = rootView.findViewById(R.id.pillButton2);
-//        pillButton2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(getActivity(), Dispense.class);
-//                String pill = "Tylenol";
-//                intent.putExtra("pillName", pill);
-//                startActivity(intent);
-//            }
-//        });
+            button.setLayoutParams(layoutParams);
+            button.setBackgroundColor(backC);
+            button.setTextColor(textC);
+//            button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16); // Set text size in scaled pixels
+            button.setPadding(16, 16, 16, 16);
+
+            String pill = "4:00 pm - " + elements[i];
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), Dispense.class);
+                    intent.putExtra("pillName", pill);
+                    startActivity(intent);
+                }
+            });
+
+            layout.addView(button);
+        }
         return rootView;
-        //return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 }
