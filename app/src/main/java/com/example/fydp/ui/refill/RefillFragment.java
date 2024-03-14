@@ -1,5 +1,6 @@
 package com.example.fydp.ui.refill;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView;
 
+import com.example.fydp.MainActivity;
 import com.example.fydp.R;
 import com.example.fydp.ui.profile.ProfileFragment;
 
@@ -24,7 +26,7 @@ public class RefillFragment extends Fragment {
     EditText quantityInput;
     Spinner spinner;
     Button submitButton;
-
+    int quantity;
     public RefillFragment() {
         // Required empty public constructor
     }
@@ -64,9 +66,15 @@ public class RefillFragment extends Fragment {
                 submitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int quantity = Integer.parseInt(quantityInput.getText().toString());
+                        String temp = quantityInput.getText().toString();
+                        if (!temp.isEmpty()){
+                            quantity = Integer.parseInt(temp);
+                        }
                         String selectedItem = (String) parent.getItemAtPosition(position);
-                        Toast.makeText(getActivity(), "Quantity: " + quantity + ", Selected item: " + selectedItem, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Quantity: " + quantity +
+                                ", Selected item: " + selectedItem, Toast.LENGTH_LONG).show();
+                        Intent intent=new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
                     }
 
                 });
@@ -75,9 +83,6 @@ public class RefillFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-
-
         return view;
     }
 }

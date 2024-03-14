@@ -21,6 +21,7 @@ import android.widget.TimePicker;
 import com.example.fydp.MainActivity;
 import com.example.fydp.R;
 import com.example.fydp.databinding.ActivityMainBinding;
+import com.example.fydp.ui.home.Dispense;
 import com.example.fydp.ui.home.HomeFragment;
 import com.example.fydp.ui.profile.ProfileFragment;
 
@@ -34,7 +35,7 @@ public class NewPillFragment extends Fragment {
     EditText medInfoInput;
     TextView currentTime;
 
-    int curHr, curMin;
+    int curHr, curMin, timeHour, timeMin;
     Calendar calendar;
 
     public NewPillFragment() {
@@ -68,11 +69,14 @@ public class NewPillFragment extends Fragment {
         calendar = Calendar.getInstance();
         curHr = calendar.get(Calendar.HOUR);
         curMin = calendar.get(Calendar.MINUTE);
+
         timeButton.setOnClickListener(view -> {
             TimePickerDialog dialog = new TimePickerDialog(requireContext(), new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     currentTime.setText(hourOfDay + ":" + minute);
+                    timeHour = hourOfDay;
+                    timeMin = minute;
                 }
             }, curHr, curMin, false);
             dialog.show();
@@ -88,8 +92,10 @@ public class NewPillFragment extends Fragment {
                 medInfo = medInfoInput.getText().toString();
 
 
-                Toast.makeText(getActivity(), medName + medDose + medFreq + medInfo,
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), medName + medDose + medFreq + medInfo +
+                        timeHour + ":" + timeMin, Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
 
 //                HomeFragment homeFragment = new HomeFragment();
 //                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
