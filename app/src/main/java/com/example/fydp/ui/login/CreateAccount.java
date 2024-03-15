@@ -29,21 +29,27 @@ public class CreateAccount extends AppCompatActivity {
         phoneInput = findViewById(R.id.phoneInput);
         emergNameInput = findViewById(R.id.emergNameInput);
         emergPhoneInput = findViewById(R.id.emergPhoneInput);
+
         createAccountButton = findViewById(R.id.createAccountButton);
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String email = emailInput.getText().toString();
                 String pass = passInput.getText().toString();
+                String name = nameInput.getText().toString();
+                String phone = phoneInput.getText().toString();
+                String eName = emergNameInput.getText().toString();
+                String ePhone = emergPhoneInput.getText().toString();
 
-                if (!email.isEmpty() && !pass.isEmpty()) {
+                if (!email.isEmpty() && !pass.isEmpty() && !name.isEmpty() && !phone.isEmpty()
+                && !eName.isEmpty() && !ePhone.isEmpty()) {
                     // Log in
                 }
             }
         });
 
         haveAccountText = findViewById(R.id.haveAccountText);
-        haveAccountText.setOnClickListener(new View.OnClickListener() {
+        haveAccountText.setOnClickListener(new Z.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CreateAccount.this, LoginPage.class);
