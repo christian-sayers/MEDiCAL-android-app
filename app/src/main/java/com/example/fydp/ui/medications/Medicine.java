@@ -1,12 +1,8 @@
-package com.example.fydp.ui.home;
-
-import static com.google.android.material.internal.ContextUtils.getActivity;
+package com.example.fydp.ui.medications;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.fydp.MainActivity;
 import com.example.fydp.R;
 
-public class Dispense extends AppCompatActivity {
+public class Medicine extends AppCompatActivity {
 
     TextView pillName;
     Button retButton;
@@ -43,7 +39,7 @@ public class Dispense extends AppCompatActivity {
         retButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Dispense.this, MainActivity.class);
+                Intent intent=new Intent(Medicine.this, MainActivity.class);
                 startActivity(intent);
             }
         });

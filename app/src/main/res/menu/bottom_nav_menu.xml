@@ -7,6 +7,11 @@
         android:title="@string/title_home" />
 
     <item
+        android:id="@+id/navigation_medication"
+        android:icon="@drawable/pill"
+        android:title="Medications" />
+
+    <item
         android:id="@+id/navigation_newpill"
         android:icon="@drawable/plus_symbol"
         android:title="@string/title_newpill" />

@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        String[] elements = {"Button 1", "Button 2", "Button 3"};
+        String[] elements = {"4:00PM - Tylenol", "4:30PM - Advil", "9:00PM - Benadryl"};
 
         LinearLayout layout = rootView.findViewById(R.id.buttonLayout);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(

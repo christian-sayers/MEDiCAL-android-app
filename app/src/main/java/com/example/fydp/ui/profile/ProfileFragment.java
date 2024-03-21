@@ -41,18 +41,18 @@ public class ProfileFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         //Fill in users information
-        String test = "hi";
+        String test = "";
         usersName = rootView.findViewById(R.id.nameValue);
         usersName.setText("Name: " + test);
-        usersEmail = rootView.findViewById(R.id.nameValue);
+        usersEmail = rootView.findViewById(R.id.emailValue);
         usersEmail.setText("Email: " + test);
-        usersPhone = rootView.findViewById(R.id.nameValue);
+        usersPhone = rootView.findViewById(R.id.phoneValue);
         usersPhone.setText("Phone: " + test);
-        usersPass = rootView.findViewById(R.id.nameValue);
+        usersPass = rootView.findViewById(R.id.passValue);
         usersPass.setText("Pass: " + test);
-        usersEmergName = rootView.findViewById(R.id.nameValue);
+        usersEmergName = rootView.findViewById(R.id.emergNameValue);
         usersEmergName.setText("Name: " + test);
-        usersEmergPhone = rootView.findViewById(R.id.nameValue);
+        usersEmergPhone = rootView.findViewById(R.id.emergPhoneValue);
         usersEmergPhone.setText("Phone: " + test);
         //End fill in users information
 

@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">FYDP</string>
+    <string name="app_name">MEDiCAL</string>
     <string name="title_home">Home</string>
     <string name="title_newpill">New</string>
     <string name="title_refill">Refill</string>
     <string name="title_profile">Profile</string>
+    <string name="test">Access_Token</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

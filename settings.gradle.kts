@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "FYDP"
+rootProject.name = "MEDiCAL"
 include(":app")
  

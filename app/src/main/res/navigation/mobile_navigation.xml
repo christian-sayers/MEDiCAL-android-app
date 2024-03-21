@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_medication"
+        android:name="com.example.fydp.ui.medications.Medications"
+        android:label="Medications"
+        tools:layout="@layout/fragment_medications" />
+
+    <fragment
         android:id="@+id/navigation_newpill"
         android:name="com.example.fydp.ui.newpill.NewPillFragment"
         android:label="@string/title_newpill"

@@ -19,8 +19,8 @@
             android:id="@+id/textViewH1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Upcoming Doses"
+            android:text="All Medications"
+            android:layout_gravity="center_horizontal"
             android:textSize="24sp" />
 
             <LinearLayout
@@ -31,29 +31,7 @@
                 android:layout_marginTop="25sp"
                 android:id="@+id/buttonLayout"
                 android:orientation="vertical">
-<!--        <Button-->
-<!--            android:id="@+id/pillButton1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="61dp"-->
-<!--            android:text="Pill 1 (Advil)" />-->
 
-<!--        <Button-->
-<!--            android:id="@+id/pillButton2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="61dp"-->
-<!--            android:text="Pill 2 (Tylenol)" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/pillButton3"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="61dp"-->
-<!--            android:text="Pill 3" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/pillButton4"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="61dp"-->
-<!--            android:text="Pill 4" />-->
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
