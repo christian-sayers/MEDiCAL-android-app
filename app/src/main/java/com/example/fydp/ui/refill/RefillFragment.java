@@ -28,6 +28,7 @@ import com.example.fydp.R;
 import com.example.fydp.ui.AccessToken;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -39,7 +40,8 @@ public class RefillFragment extends Fragment {
     EditText quantityInput;
     Spinner spinner;
     Button submitButton;
-    int quantity;
+    int quantity, pos;
+    String selectedItem;
 
     public RefillFragment() {}
 
@@ -56,6 +58,9 @@ public class RefillFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_refill, container, false);
+
+        spinner = view.findViewById(R.id.spinner);
+
 
         String url = "http://10.0.2.2:4000/medications";
         AccessToken accessToken = (AccessToken) requireActivity().getApplication();
@@ -79,61 +84,113 @@ public class RefillFragment extends Fragment {
                                 medNames.add(name);
                                 medIds.add(id);
                                 medBucket.add(bucket);
+
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+                                        android.R.layout.simple_spinner_item, medNames);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(adapter);
+                                spinner.requestFocus();
                             }
                         }catch (Exception e){
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                volleyError.printStackTrace();
-            }
-        }) {
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                // Add headers here
-                headers.put("Authorization", "Bearer " + token);
-                // Add other headers as needed
-                return headers;
-            }
-        };
-        Volley.newRequestQueue(requireActivity()).add(request);
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    volleyError.printStackTrace();
+                }
+            }) {
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    // Add headers here
+                    headers.put("Authorization", "Bearer " + token);
+                    // Add other headers as needed
+                    return headers;
+                }
+            };
+            Volley.newRequestQueue(requireActivity()).add(request);
 
         // Find the Spinner within the inflated view
-        spinner = view.findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, medNames);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.requestFocus();
+
 
         quantityInput = view.findViewById(R.id.quantityInput);
-        submitButton = view.findViewById(R.id.submitButton);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Retrieve the selected item from the adapter
-
-                submitButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String temp = quantityInput.getText().toString();
-                        if (!temp.isEmpty()){
-                            quantity = Integer.parseInt(temp);
-                        }
-                        String selectedItem = (String) parent.getItemAtPosition(position);
-                        Toast.makeText(getActivity(), "Quantity: " + quantity +
-                                ", Selected item: " + selectedItem, Toast.LENGTH_LONG).show();
-                        Intent intent=new Intent(getActivity(), MainActivity.class);
-                        startActivity(intent);
-                    }
-
-                });
+                pos = position;
+                selectedItem = (String) parent.getItemAtPosition(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        submitButton = view.findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String temp = quantityInput.getText().toString();
+                if (!temp.isEmpty()){
+                    quantity = Integer.parseInt(temp);
+                }
+                String id = medIds.get(pos);
+
+//                Toast.makeText(requireActivity(), pos + ", " + quantity + ", " + id, Toast.LENGTH_LONG).show();
+
+
+                AccessToken accessToken = (AccessToken) requireActivity().getApplication();
+                String token = accessToken.getGlobalVariable();
+
+                String url = "http://10.0.2.2:4000/medications/" + id;
+//                Toast.makeText(requireActivity(), url, Toast.LENGTH_LONG).show();
+                JSONObject postData = new JSONObject();
+                try {
+                    postData.put("quantityAdded", quantity);
+                    // Add other key-value pairs as needed
+                } catch (JSONException e) {
+                    Toast.makeText(requireActivity(), "error1: " + e, Toast.LENGTH_LONG).show();
+                }
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.PATCH, url, postData,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    String message = response.getString("bucket");
+                                    Toast.makeText(requireActivity(), "Place in bucket: " + message, Toast.LENGTH_LONG).show();
+
+//                                    Toast.makeText(getActivity(), "Quantity: " + quantity +
+//                                            ", Selected item: " + selectedItem, Toast.LENGTH_LONG).show();
+
+                                    Intent intent=new Intent(getActivity(), MainActivity.class);
+                                    startActivity(intent);
+                                } catch (JSONException e){
+                                    Toast.makeText(requireActivity(), "error2: " + e, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //Wrong user or pass
+                                Toast.makeText(requireActivity(), "API Error", Toast.LENGTH_LONG).show();
+                                Log.d("My Error 3", error.toString());
+
+                            }
+                        }) {
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        return headers;
+                    }
+                };
+
+                Volley.newRequestQueue(requireActivity()).add(request);
+
+
             }
         });
         return view;

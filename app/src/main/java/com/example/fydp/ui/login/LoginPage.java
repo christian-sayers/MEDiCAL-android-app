@@ -72,7 +72,7 @@ public class LoginPage extends AppCompatActivity {
                         public void onResponse(JSONObject response) {
                             try {
                                 String message = response.getString("access_token");
-                                Toast.makeText(LoginPage.this, message, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(LoginPage.this, message, Toast.LENGTH_LONG).show();
                                 AccessToken accessToken = (AccessToken) getApplication();
                                 accessToken.setGlobalVariable(message);
                                 Intent intent = new Intent(LoginPage.this, MainActivity.class);

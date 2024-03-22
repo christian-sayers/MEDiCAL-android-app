@@ -15,6 +15,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.medications.Medicine"
+            android:exported="false"/>
+        <activity
             android:name=".ui.home.Dispense"
             android:exported="false" />
         <activity

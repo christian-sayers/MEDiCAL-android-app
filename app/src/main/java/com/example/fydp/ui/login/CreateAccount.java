@@ -81,7 +81,7 @@ public class CreateAccount extends AppCompatActivity {
                         public void onResponse(JSONObject response) {
                             try {
                                 String message = response.getString("access_token");
-                                Toast.makeText(CreateAccount.this, message, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(CreateAccount.this, message, Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(CreateAccount.this, LoginPage.class);
                                 startActivity(intent);
                             } catch (JSONException e){

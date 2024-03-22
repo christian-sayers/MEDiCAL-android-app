@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import android.widget.TimePicker;
 
@@ -36,13 +37,13 @@ import org.json.JSONObject;
 
 public class NewPillFragment extends Fragment {
 
-    String medName, medDose, medFreq, medInfo, medQuan;
+    String medName, medDose, medFreq, medQuan, timeHour, timeMin;
     Button submitPillButton, timeButton;
     EditText medNameInput, medDoseInput, medFreqInput, medQuanInput;
     EditText medInfoInput;
     TextView currentTime;
 
-    int curHr, curMin, timeHour, timeMin;
+    int curHr, curMin;
     Calendar calendar;
 
     public NewPillFragment() {
@@ -69,7 +70,7 @@ public class NewPillFragment extends Fragment {
         medNameInput = rootView.findViewById(R.id.medNameInput);
         medDoseInput = rootView.findViewById(R.id.medDoseInput);
         medFreqInput = rootView.findViewById(R.id.medFreqInput);
-        medInfoInput = rootView.findViewById(R.id.medInfoInput);
+//        medInfoInput = rootView.findViewById(R.id.medInfoInput);
         medQuanInput = rootView.findViewById(R.id.medQuanInput);
 
         currentTime = rootView.findViewById(R.id.currentTime);
@@ -78,18 +79,34 @@ public class NewPillFragment extends Fragment {
         curHr = calendar.get(Calendar.HOUR);
         curMin = calendar.get(Calendar.MINUTE);
 
+        TimeZone defaultTimeZone = TimeZone.getDefault();
+        String defaultTimeZoneID = defaultTimeZone.getID();
+        String defaultTimeZoneDisplayName = defaultTimeZone.getDisplayName();
+
         //TO DO
         // - implement a time selector for each frequency
         // - implement a way to only click submit if all values are filled out
         // - make sections only fillable by numbers (dosage and freq)
+
 
         timeButton.setOnClickListener(view -> {
             TimePickerDialog dialog = new TimePickerDialog(requireContext(), new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     currentTime.setText(hourOfDay + ":" + minute);
-                    timeHour = hourOfDay;
-                    timeMin = minute;
+                    if (hourOfDay < 10){
+                        timeHour = "0" + (hourOfDay+5);
+                    }
+                    else {
+                        timeHour = String.valueOf(hourOfDay+5);
+                    }
+                    if (minute < 10){
+                        timeMin = "0" + minute;
+                    }
+                    else {
+                        timeMin = String.valueOf(minute);
+                    }
+
                 }
             }, curHr, curMin, false);
             dialog.show();
@@ -102,7 +119,6 @@ public class NewPillFragment extends Fragment {
                 medName = medNameInput.getText().toString();
                 medDose = medDoseInput.getText().toString();
                 medFreq = medFreqInput.getText().toString();
-                medInfo = medInfoInput.getText().toString();
                 medQuan = medQuanInput.getText().toString();
 
                 AccessToken accessToken = (AccessToken) requireActivity().getApplication();
@@ -113,6 +129,7 @@ public class NewPillFragment extends Fragment {
                 JSONObject postData = new JSONObject();
                 try {
                     JSONArray timesArray = new JSONArray();
+
                     timesArray.put("2024-03-16T" + timeHour + ':' + timeMin + ":00.000Z");
                     postData.put("name", medName);
                     postData.put("quantity", Integer.parseInt(medQuan));
@@ -142,8 +159,9 @@ public class NewPillFragment extends Fragment {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 //Wrong user or pass
-                                Toast.makeText(requireActivity(), "Incorrect Credentials", Toast.LENGTH_LONG).show();
+                                Toast.makeText(requireActivity(), "API Error", Toast.LENGTH_LONG).show();
                                 Log.d("My Error 3", error.toString());
+
                             }
                         }) {
                     @Override

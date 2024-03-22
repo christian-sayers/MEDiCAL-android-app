@@ -61,14 +61,6 @@ public class Medications extends Fragment {
             }
         }
 
-        //String[] elements = {"Tylenol", "Advil", "Benadryl"};
-
-        LinearLayout layout = rootView.findViewById(R.id.buttonLayout);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, // width
-            LinearLayout.LayoutParams.WRAP_CONTENT // height
-        );
-
         String url = "http://10.0.2.2:4000/medications";
         AccessToken accessToken = (AccessToken) requireActivity().getApplication();
         String token = accessToken.getGlobalVariable();
@@ -91,38 +83,46 @@ public class Medications extends Fragment {
                                 medNames.add(name);
                                 medIds.add(id);
                                 medBucket.add(bucket);
+                            }
+                            LinearLayout layout = rootView.findViewById(R.id.buttonLayout);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT, // width
+                                    LinearLayout.LayoutParams.WRAP_CONTENT // height
+                            );
 
-                                int backC = getResources().getColor(R.color.blue_500);
-                                int textC = getResources().getColor(R.color.white);
-//        Toast.makeText(requireActivity(), medNames.size(), Toast.LENGTH_LONG).show();
-                                for (int j = 0; j < medNames.size(); j++) {
-                                    // Create a new button
-                                    Button button = new Button(requireActivity());
-                                    // Set button text
-                                    String curName = medNames.get(j);
+                            int backC = getResources().getColor(R.color.blue_500);
+                            int textC = getResources().getColor(R.color.white);
+
+                            for (int j = 0; j < medNames.size(); j++) {
+                                // Create a new button
+                                Button button = new Button(requireActivity());
+                                // Set button text
+                                String curName = medNames.get(j);
 //            Toast.makeText(requireActivity(), name, Toast.LENGTH_LONG).show();
-                                    button.setText(curName);
+                                button.setText(curName);
 
-                                    if (j > 0) {
-                                        layoutParams.setMargins(0, 16, 0, 0); // Top margin between buttons
-                                    }
-                                    button.setLayoutParams(layoutParams);
-                                    button.setBackgroundColor(backC);
-                                    button.setTextColor(textC);
-                                    button.setPadding(16, 16, 16, 16);
-
-                                    String pill = medNames.get(i);
-                                    button.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Intent intent = new Intent(getActivity(), Dispense.class);
-                                            intent.putExtra("pillName", pill);
-                                            startActivity(intent);
-                                        }
-                                    });
-
-                                    layout.addView(button);
+                                if (j > 0) {
+                                    layoutParams.setMargins(0, 16, 0, 0); // Top margin between buttons
                                 }
+                                button.setLayoutParams(layoutParams);
+                                button.setBackgroundColor(backC);
+                                button.setTextColor(textC);
+                                button.setPadding(16, 16, 16, 16);
+
+                                String pill = medNames.get(j);
+                                String pillId = medIds.get(j);
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(getActivity(), Medicine.class);
+                                        intent.putExtra("pillName", pill);
+                                        intent.putExtra("id", pillId);
+//                                            intent.putExtra("token", token);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                layout.addView(button);
                             }
                         }catch (Exception e){
                             e.printStackTrace();
@@ -143,7 +143,6 @@ public class Medications extends Fragment {
             }
         };
         Volley.newRequestQueue(requireActivity()).add(request);
-
 
         return rootView;
     }

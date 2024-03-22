@@ -7,11 +7,6 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_medication"
-        android:icon="@drawable/pill"
-        android:title="Medications" />
-
-    <item
         android:id="@+id/navigation_newpill"
         android:icon="@drawable/plus_symbol"
         android:title="@string/title_newpill" />
@@ -22,7 +17,12 @@
         android:title="@string/title_refill" />
 
     <item
-        android:id="@+id/navigation_profile"
-        android:icon="@drawable/profile_b"
-        android:title="@string/title_profile" />
+        android:id="@+id/navigation_medication"
+        android:icon="@drawable/pill"
+        android:title="Medications" />
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_profile"-->
+<!--        android:icon="@drawable/profile_b"-->
+<!--        android:title="@string/title_profile" />-->
 </menu>
