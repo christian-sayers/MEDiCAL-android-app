@@ -39,6 +39,8 @@
             android:id="@+id/quantityInput"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:inputType="number"
+            android:digits="0123456789"
             android:ems="10"
             android:hint="Quantity" />
 

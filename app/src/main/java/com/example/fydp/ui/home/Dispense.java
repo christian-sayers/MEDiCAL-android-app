@@ -95,7 +95,7 @@ public class Dispense extends AppCompatActivity {
 
 //                Toast.makeText(requireActivity(), pos + ", " + quantity + ", " + id, Toast.LENGTH_LONG).show();
 
-                String url = "http://10.0.2.2:4000/doses/dispense/" + pillDosId;
+                String url = "http://10.0.2.2:4000/medications/dispense/dose/" + pillDosId;
 
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + token);

@@ -42,6 +42,7 @@ public class NewPillFragment extends Fragment {
     EditText medNameInput, medDoseInput, medFreqInput, medQuanInput;
     EditText medInfoInput;
     TextView currentTime;
+    JSONArray timesArray = new JSONArray();
 
     int curHr, curMin;
     Calendar calendar;
@@ -88,29 +89,78 @@ public class NewPillFragment extends Fragment {
         // - implement a way to only click submit if all values are filled out
         // - make sections only fillable by numbers (dosage and freq)
 
+//        timeButton.setOnClickListener(view -> {
+//            TimePickerDialog dialog = new TimePickerDialog(requireContext(), new TimePickerDialog.OnTimeSetListener() {
+//                @Override
+//                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                    currentTime.setText(hourOfDay + ":" + minute);
+//                    if (hourOfDay < 10){
+//                        timeHour = "0" + (hourOfDay+5);
+//                    }
+//                    else {
+//                        timeHour = String.valueOf(hourOfDay+5);
+//                    }
+//                    if (minute < 10){
+//                        timeMin = "0" + minute;
+//                    }
+//                    else {
+//                        timeMin = String.valueOf(minute);
+//                    }
+//
+//                }
+//            }, curHr, curMin, false);
+//            dialog.show();
+//        });
 
-        timeButton.setOnClickListener(view -> {
-            TimePickerDialog dialog = new TimePickerDialog(requireContext(), new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    currentTime.setText(hourOfDay + ":" + minute);
-                    if (hourOfDay < 10){
-                        timeHour = "0" + (hourOfDay+5);
-                    }
-                    else {
-                        timeHour = String.valueOf(hourOfDay+5);
-                    }
-                    if (minute < 10){
-                        timeMin = "0" + minute;
-                    }
-                    else {
-                        timeMin = String.valueOf(minute);
-                    }
+//        medFreq = medFreqInput.getText().toString();
+//        int intFreq;
+//        try {
+//            intFreq = Integer.parseInt(medFreq);
+//            for (int i = 0; i < intFreq; i++) {
+////                showTimePickerDialog(requireContext());
+//            }
+//        } catch (NumberFormatException e) {}
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String editTextValue = medFreqInput.getText().toString();
+                int numberOfDialogs;
 
+                try {
+                    numberOfDialogs = Integer.parseInt(editTextValue);
+
+                    // Create and show TimePickerDialogs
+                    for (int i = 0; i < numberOfDialogs; i++) {
+                        Calendar calendar = Calendar.getInstance();
+                        int curHr = calendar.get(Calendar.HOUR_OF_DAY);
+                        int curMin = calendar.get(Calendar.MINUTE);
+
+                        TimePickerDialog dialog = new TimePickerDialog(requireContext(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                currentTime.setText(hourOfDay + ":" + minute);
+                                if (hourOfDay < 10) {
+                                    timeHour = "0" + (hourOfDay + 5);
+                                } else {
+                                    timeHour = String.valueOf(hourOfDay + 5);
+                                }
+                                if (minute < 10) {
+                                    timeMin = "0" + minute;
+                                } else {
+                                    timeMin = String.valueOf(minute);
+                                }
+                                timesArray.put("2024-03-16T" + timeHour + ':' + timeMin + ":00.000Z");
+                            }
+                        }, curHr, curMin, false);
+                        dialog.show();
+                    }
+                } catch (NumberFormatException e) {
+                    // Handle the case where the string cannot be parsed to an integer
+                    // For example, show a toast message or prompt the user to enter a valid number
                 }
-            }, curHr, curMin, false);
-            dialog.show();
+            }
         });
+
 
         submitPillButton = rootView.findViewById(R.id.submitPillButton);
         submitPillButton.setOnClickListener(new View.OnClickListener() {
@@ -118,8 +168,20 @@ public class NewPillFragment extends Fragment {
             public void onClick(View v) {
                 medName = medNameInput.getText().toString();
                 medDose = medDoseInput.getText().toString();
-                medFreq = medFreqInput.getText().toString();
                 medQuan = medQuanInput.getText().toString();
+//                try {
+//                    if (timesArray.length() == 2) {
+//                        String one = timesArray.getString(0);
+//                        String two = timesArray.getString(1);
+//                        Toast.makeText(requireActivity(), one, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(requireActivity(), two, Toast.LENGTH_LONG).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    // Handle the JSONException here
+//                    // For example, show a toast message indicating parsing error
+//                    // Toast.makeText(requireActivity(), "Error parsing JSON data", Toast.LENGTH_LONG).show();
+//                }
 
                 AccessToken accessToken = (AccessToken) requireActivity().getApplication();
 
@@ -128,9 +190,9 @@ public class NewPillFragment extends Fragment {
                 String url = "http://10.0.2.2:4000/medications";
                 JSONObject postData = new JSONObject();
                 try {
-                    JSONArray timesArray = new JSONArray();
+//                    JSONArray timesArray = new JSONArray();
 
-                    timesArray.put("2024-03-16T" + timeHour + ':' + timeMin + ":00.000Z");
+//                    timesArray.put("2024-03-16T" + timeHour + ':' + timeMin + ":00.000Z");
                     postData.put("name", medName);
                     postData.put("quantity", Integer.parseInt(medQuan));
                     postData.put("dosage", Integer.parseInt(medDose));
