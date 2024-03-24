@@ -1,6 +1,8 @@
 package com.example.fydp.ui.newpill;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -37,10 +39,9 @@ import org.json.JSONObject;
 
 public class NewPillFragment extends Fragment {
 
-    String medName, medDose, medFreq, medQuan, timeHour, timeMin;
+    String medName, medDose, medQuan, timeHour, timeMin;
     Button submitPillButton, timeButton;
     EditText medNameInput, medDoseInput, medFreqInput, medQuanInput;
-    EditText medInfoInput;
     TextView currentTime;
     JSONArray timesArray = new JSONArray();
 
@@ -63,6 +64,27 @@ public class NewPillFragment extends Fragment {
 
     }
 
+    private void showPopupDialog(String pillName, String quantity, String bucket, final OnDialogDismissedListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setMessage("Thank you for adding " + pillName + "!\n" +
+                        "Please add " + quantity + " of " + pillName + " to bucket number " + bucket + "!")
+                .setCancelable(false) // prevents user from cancelling dialog by clicking outside
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Close the dialog
+                        dialog.dismiss();
+                        listener.onDismissed();
+                    }
+                });
+
+        // Create the AlertDialog object and show it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    interface OnDialogDismissedListener {
+        void onDismissed();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,7 +93,6 @@ public class NewPillFragment extends Fragment {
         medNameInput = rootView.findViewById(R.id.medNameInput);
         medDoseInput = rootView.findViewById(R.id.medDoseInput);
         medFreqInput = rootView.findViewById(R.id.medFreqInput);
-//        medInfoInput = rootView.findViewById(R.id.medInfoInput);
         medQuanInput = rootView.findViewById(R.id.medQuanInput);
 
         currentTime = rootView.findViewById(R.id.currentTime);
@@ -80,52 +101,15 @@ public class NewPillFragment extends Fragment {
         curHr = calendar.get(Calendar.HOUR);
         curMin = calendar.get(Calendar.MINUTE);
 
-        TimeZone defaultTimeZone = TimeZone.getDefault();
-        String defaultTimeZoneID = defaultTimeZone.getID();
-        String defaultTimeZoneDisplayName = defaultTimeZone.getDisplayName();
-
         //TO DO
-        // - implement a time selector for each frequency
         // - implement a way to only click submit if all values are filled out
-        // - make sections only fillable by numbers (dosage and freq)
 
-//        timeButton.setOnClickListener(view -> {
-//            TimePickerDialog dialog = new TimePickerDialog(requireContext(), new TimePickerDialog.OnTimeSetListener() {
-//                @Override
-//                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//                    currentTime.setText(hourOfDay + ":" + minute);
-//                    if (hourOfDay < 10){
-//                        timeHour = "0" + (hourOfDay+5);
-//                    }
-//                    else {
-//                        timeHour = String.valueOf(hourOfDay+5);
-//                    }
-//                    if (minute < 10){
-//                        timeMin = "0" + minute;
-//                    }
-//                    else {
-//                        timeMin = String.valueOf(minute);
-//                    }
-//
-//                }
-//            }, curHr, curMin, false);
-//            dialog.show();
-//        });
-
-//        medFreq = medFreqInput.getText().toString();
-//        int intFreq;
-//        try {
-//            intFreq = Integer.parseInt(medFreq);
-//            for (int i = 0; i < intFreq; i++) {
-////                showTimePickerDialog(requireContext());
-//            }
-//        } catch (NumberFormatException e) {}
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timesArray = new JSONArray();
                 String editTextValue = medFreqInput.getText().toString();
                 int numberOfDialogs;
-
                 try {
                     numberOfDialogs = Integer.parseInt(editTextValue);
 
@@ -141,9 +125,12 @@ public class NewPillFragment extends Fragment {
                                 currentTime.setText(hourOfDay + ":" + minute);
                                 if (hourOfDay < 10) {
                                     timeHour = "0" + (hourOfDay + 5);
+                                } else if (hourOfDay > 18) {
+                                    timeHour = String.valueOf(hourOfDay - 19);
                                 } else {
                                     timeHour = String.valueOf(hourOfDay + 5);
                                 }
+
                                 if (minute < 10) {
                                     timeMin = "0" + minute;
                                 } else {
@@ -169,19 +156,6 @@ public class NewPillFragment extends Fragment {
                 medName = medNameInput.getText().toString();
                 medDose = medDoseInput.getText().toString();
                 medQuan = medQuanInput.getText().toString();
-//                try {
-//                    if (timesArray.length() == 2) {
-//                        String one = timesArray.getString(0);
-//                        String two = timesArray.getString(1);
-//                        Toast.makeText(requireActivity(), one, Toast.LENGTH_LONG).show();
-//                        Toast.makeText(requireActivity(), two, Toast.LENGTH_LONG).show();
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    // Handle the JSONException here
-//                    // For example, show a toast message indicating parsing error
-//                    // Toast.makeText(requireActivity(), "Error parsing JSON data", Toast.LENGTH_LONG).show();
-//                }
 
                 AccessToken accessToken = (AccessToken) requireActivity().getApplication();
 
@@ -191,7 +165,6 @@ public class NewPillFragment extends Fragment {
                 JSONObject postData = new JSONObject();
                 try {
 //                    JSONArray timesArray = new JSONArray();
-
 //                    timesArray.put("2024-03-16T" + timeHour + ':' + timeMin + ":00.000Z");
                     postData.put("name", medName);
                     postData.put("quantity", Integer.parseInt(medQuan));
@@ -201,6 +174,7 @@ public class NewPillFragment extends Fragment {
                 } catch (JSONException e) {
                     Toast.makeText(requireActivity(), "error1: " + e, Toast.LENGTH_LONG).show();
                 }
+//                Toast.makeText(requireActivity(), medName + " " + medQuan + " " + medDose + " " + timesArray, Toast.LENGTH_LONG).show();
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + token);
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, postData,
@@ -209,9 +183,16 @@ public class NewPillFragment extends Fragment {
                                 public void onResponse(JSONObject response) {
                                     try {
                                         String message = response.getString("bucket");
-                                        Toast.makeText(requireActivity(), "Place in bucket: " + message, Toast.LENGTH_LONG).show();
-                                        Intent intent=new Intent(getActivity(), MainActivity.class);
-                                        startActivity(intent);
+                                        showPopupDialog(medName, medQuan, message, new OnDialogDismissedListener() {
+                                            @Override
+                                            public void onDismissed() {
+                                                Intent intent=new Intent(getActivity(), MainActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+//                                        Toast.makeText(requireActivity(), "Place in bucket: " + message, Toast.LENGTH_LONG).show();
+//                                        Intent intent=new Intent(getActivity(), MainActivity.class);
+//                                        startActivity(intent);
                                     } catch (JSONException e){
                                         Toast.makeText(requireActivity(), "error2: " + e, Toast.LENGTH_LONG).show();
                                     }
@@ -221,7 +202,7 @@ public class NewPillFragment extends Fragment {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 //Wrong user or pass
-                                Toast.makeText(requireActivity(), "API Error", Toast.LENGTH_LONG).show();
+                                Toast.makeText(requireActivity(), "Please try again.", Toast.LENGTH_LONG).show();
                                 Log.d("My Error 3", error.toString());
 
                             }

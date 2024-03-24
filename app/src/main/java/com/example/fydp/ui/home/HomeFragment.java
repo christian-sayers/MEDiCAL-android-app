@@ -108,7 +108,26 @@ public class HomeFragment extends Fragment {
                                             public void onResponse(JSONObject jsonObject) {
                                                 try {
                                                     String name = jsonObject.getString("name");
-                                                    String Ftime = time.substring(indexOfT + 1, indexOfT + 6);
+                                                    String hTime = time.substring(indexOfT + 1, indexOfT + 3);
+                                                    String mTime = time.substring(indexOfT + 3, indexOfT + 6);
+                                                    int temp = Integer.parseInt(hTime) - 5;
+                                                    if (temp < 0) {
+                                                        temp += 24;
+                                                    }
+                                                    if (0 <= temp && temp < 12) {
+                                                        mTime = mTime + " AM";
+                                                    }
+                                                    else {
+                                                        mTime = mTime + " PM";
+                                                    }
+                                                    if (temp > 12) {
+                                                        temp -= 12;
+                                                    }
+                                                    if (temp == 0) {
+                                                        temp += 12;
+                                                    }
+                                                    hTime = String.valueOf(temp);
+                                                    String Ftime = hTime + mTime;
                                                     button.setText(Ftime + " - " + name);
                                                 }catch (Exception e){
                                                     e.printStackTrace();
@@ -145,7 +164,26 @@ public class HomeFragment extends Fragment {
                                     @Override
                                     public void onClick(View view) {
                                         Intent intent = new Intent(getActivity(), Dispense.class);
-                                        String Ftime = time.substring(indexOfT + 1, indexOfT + 6);
+                                        String hTime = time.substring(indexOfT + 1, indexOfT + 3);
+                                        String mTime = time.substring(indexOfT + 3, indexOfT + 6);
+                                        int temp = Integer.parseInt(hTime) - 5;
+                                        if (temp < 0) {
+                                            temp += 24;
+                                        }
+                                        if (0 <= temp && temp < 12) {
+                                            mTime = mTime + " AM";
+                                        }
+                                        else {
+                                            mTime = mTime + " PM";
+                                        }
+                                        if (temp > 12) {
+                                            temp -= 12;
+                                        }
+                                        if (temp == 0) {
+                                            temp += 12;
+                                        }
+                                        hTime = String.valueOf(temp);
+                                        String Ftime = hTime + mTime;
                                         intent.putExtra("pillTime", Ftime);
                                         intent.putExtra("pillDosId", pillDosId);
                                         intent.putExtra("pillMedId", curMedId);

@@ -97,15 +97,7 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
-        forgotPassText = findViewById(R.id.forgotPassText);
         createText = findViewById(R.id.createText);
-
-        forgotPassText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                //Go to a submit email page and email them reset link
-            }
-        });
         createText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){

@@ -1,5 +1,7 @@
 package com.example.fydp.ui.refill;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.fydp.MainActivity;
 import com.example.fydp.R;
 import com.example.fydp.ui.AccessToken;
+import com.example.fydp.ui.newpill.NewPillFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +57,26 @@ public class RefillFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    private void showPopupDialog(String pillName, int quantity, String bucket, final RefillFragment.OnDialogDismissedListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setMessage("Thank you for refilling " + pillName + "!\n" +
+                        "Please add " + quantity + " of " + pillName + " to bucket number " + bucket + "!")
+                .setCancelable(false) // prevents user from cancelling dialog by clicking outside
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Close the dialog
+                        dialog.dismiss();
+                        listener.onDismissed();
+                    }
+                });
+
+        // Create the AlertDialog object and show it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    interface OnDialogDismissedListener {
+        void onDismissed();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -161,13 +184,13 @@ public class RefillFragment extends Fragment {
                             public void onResponse(JSONObject response) {
                                 try {
                                     String message = response.getString("bucket");
-                                    Toast.makeText(requireActivity(), "Place in bucket: " + message, Toast.LENGTH_LONG).show();
-
-//                                    Toast.makeText(getActivity(), "Quantity: " + quantity +
-//                                            ", Selected item: " + selectedItem, Toast.LENGTH_LONG).show();
-
-                                    Intent intent=new Intent(getActivity(), MainActivity.class);
-                                    startActivity(intent);
+                                    showPopupDialog(medNames.get(pos), quantity, message, new OnDialogDismissedListener() {
+                                        @Override
+                                        public void onDismissed() {
+                                            Intent intent=new Intent(getActivity(), MainActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    });
                                 } catch (JSONException e){
                                     Toast.makeText(requireActivity(), "error2: " + e, Toast.LENGTH_LONG).show();
                                 }

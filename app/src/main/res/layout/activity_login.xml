@@ -59,16 +59,6 @@
             android:text="Sign In" />
 
         <TextView
-            android:id="@+id/forgotPassText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Forgot password?"
-            android:textColor="@color/blue_700"
-            android:layout_marginTop="5sp"
-            android:textSize="20sp" />
-
-        <TextView
             android:id="@+id/createText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
