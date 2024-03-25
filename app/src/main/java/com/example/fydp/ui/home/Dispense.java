@@ -2,6 +2,8 @@ package com.example.fydp.ui.home;
 
 import static com.google.android.material.internal.ContextUtils.getActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,7 @@ import com.example.fydp.MainActivity;
 import com.example.fydp.R;
 import com.example.fydp.ui.AccessToken;
 import com.example.fydp.ui.medications.Medicine;
+import com.example.fydp.ui.refill.RefillFragment;
 
 import org.json.JSONObject;
 
@@ -39,6 +42,39 @@ public class Dispense extends AppCompatActivity {
     TextView pillName;
     Button retButton, button_circular;
 
+    private void showPopupDialog(String pillName, int quantity, int dosage, final Dispense.OnDialogDismissedListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Dispense.this);
+        if (quantity < (5 * dosage)){
+            builder.setMessage("Your " + pillName + " will be dispensed shortly.\n" +
+                            "You are running low on " + pillName + ". Please refill soon.")
+                    .setCancelable(false) // prevents user from cancelling dialog by clicking outside
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Close the dialog
+                            dialog.dismiss();
+                            listener.onDismissed();
+                        }
+                    });
+        }
+        else {
+            builder.setMessage("Your " + pillName + " will be dispensed shortly.\n")
+                    .setCancelable(false) // prevents user from cancelling dialog by clicking outside
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Close the dialog
+                            dialog.dismiss();
+                            listener.onDismissed();
+                        }
+                    });
+        }
+
+        // Create the AlertDialog object and show it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    interface OnDialogDismissedListener {
+        void onDismissed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,9 +139,45 @@ public class Dispense extends AppCompatActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                Toast.makeText(Dispense.this, "Successfully Dispensed: " + pillName, Toast.LENGTH_LONG).show();
-                                Intent intent=new Intent(Dispense.this, MainActivity.class);
-                                startActivity(intent);
+                                try {
+                                    String medNames;
+                                    int dosage = response.getInt("dosage");
+                                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url2, null,
+                                            new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject jsonObject) {
+                                                    try {
+                                                        String name = jsonObject.getString("name");
+                                                        int quan = jsonObject.getInt("quantity");
+                                                        showPopupDialog(name, quan, dosage, new Dispense.OnDialogDismissedListener() {
+                                                            @Override
+                                                            public void onDismissed() {
+                                                                Intent intent = new Intent(Dispense.this, MainActivity.class);
+                                                                startActivity(intent);
+                                                            }
+                                                        });
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError volleyError) {
+                                            volleyError.printStackTrace();
+                                        }
+                                    }) {
+                                        public Map<String, String> getHeaders() throws AuthFailureError {
+                                            Map<String, String> headers2 = new HashMap<>();
+                                            // Add headers here
+                                            headers2.put("Authorization", "Bearer " + token);
+                                            // Add other headers as needed
+                                            return headers2;
+                                        }
+                                    };
+                                    Volley.newRequestQueue(Dispense.this).add(request);
+                                }catch(Exception e){
+                                    e.printStackTrace();
+                                }
                             }
                         },
                         new Response.ErrorListener() {

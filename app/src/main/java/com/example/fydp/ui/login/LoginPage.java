@@ -57,9 +57,6 @@ public class LoginPage extends AppCompatActivity {
                 String pass = passInput.getText().toString();
 
                 if (!email.isEmpty() && !pass.isEmpty()) {
-//                    // DELETE LATER THIS IS SO I DONT HAVE TO LOG IN LOL
-//                    Intent intent = new Intent(LoginPage.this, MainActivity.class);
-//                    startActivity(intent);
                     // Log in
                     String url = "http://10.0.2.2:4000/auth/login";
                     JSONObject postData = new JSONObject();
