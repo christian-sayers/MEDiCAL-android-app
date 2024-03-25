@@ -60,7 +60,7 @@ public class RefillFragment extends Fragment {
     private void showPopupDialog(String pillName, int quantity, String bucket, final RefillFragment.OnDialogDismissedListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setMessage("Thank you for refilling " + pillName + "!\n" +
-                        "Please add " + quantity + " of " + pillName + " to bucket number " + bucket + "!")
+                        "Please add " + quantity + " tablets of " + pillName + "\nto bucket number " + bucket + "!")
                 .setCancelable(false) // prevents user from cancelling dialog by clicking outside
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

@@ -42,7 +42,7 @@
             android:inputType="number"
             android:digits="0123456789"
             android:ems="10"
-            android:hint="Quantity" />
+            android:hint="How many additional pills?" />
 
         <Button
             android:id="@+id/submitButton"

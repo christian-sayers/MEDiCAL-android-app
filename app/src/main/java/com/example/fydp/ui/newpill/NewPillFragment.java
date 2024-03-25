@@ -67,7 +67,7 @@ public class NewPillFragment extends Fragment {
     private void showPopupDialog(String pillName, String quantity, String bucket, final OnDialogDismissedListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setMessage("Thank you for adding " + pillName + "!\n" +
-                        "Please add " + quantity + " of " + pillName + " to bucket number " + bucket + "!")
+                        "Please add " + quantity + " tablets of " + pillName + "\nto bucket number " + bucket + "!")
                 .setCancelable(false) // prevents user from cancelling dialog by clicking outside
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -123,14 +123,16 @@ public class NewPillFragment extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 currentTime.setText(hourOfDay + ":" + minute);
-                                if (hourOfDay < 10) {
-                                    timeHour = "0" + (hourOfDay + 5);
-                                } else if (hourOfDay > 18) {
-                                    timeHour = String.valueOf(hourOfDay - 19);
-                                } else {
-                                    timeHour = String.valueOf(hourOfDay + 5);
+                                hourOfDay += 4;
+                                if (hourOfDay > 23) {
+                                    hourOfDay -= 24;
                                 }
-
+                                if (hourOfDay < 10) {
+                                    timeHour = "0" + (hourOfDay);
+                                }
+                                else {
+                                    timeHour = Integer.toString(hourOfDay);
+                                }
                                 if (minute < 10) {
                                     timeMin = "0" + minute;
                                 } else {
@@ -158,7 +160,6 @@ public class NewPillFragment extends Fragment {
                 medQuan = medQuanInput.getText().toString();
 
                 AccessToken accessToken = (AccessToken) requireActivity().getApplication();
-
                 String token = accessToken.getGlobalVariable();
 
                 String url = "http://10.0.2.2:4000/medications";

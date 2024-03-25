@@ -20,12 +20,16 @@
             android:text="New Medications"
             android:textSize="24sp" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
         <EditText
             android:id="@+id/medNameInput"
             android:layout_width="250dp"
             android:layout_height="60dp"
             android:ems="10"
-            android:hint="Name" />
+            android:hint="Name of the medication" />
 
         <EditText
             android:id="@+id/medQuanInput"
@@ -34,7 +38,7 @@
             android:inputType="number"
             android:digits="0123456789"
             android:ems="10"
-            android:hint="Quantity"/>
+            android:hint="How many pills do you have?"/>
 
         <EditText
             android:id="@+id/medDoseInput"
@@ -43,7 +47,7 @@
             android:inputType="number"
             android:digits="0123456789"
             android:ems="10"
-            android:hint="Dosage"/>
+            android:hint="How many pills at a time?"/>
 
         <EditText
             android:id="@+id/medFreqInput"
@@ -52,14 +56,8 @@
             android:inputType="number"
             android:digits="0123456789"
             android:ems="10"
-            android:hint="Frequency"/>
+            android:hint="How many times per day?"/>
 
-<!--        <EditText-->
-<!--            android:id="@+id/medInfoInput"-->
-<!--            android:layout_width="250dp"-->
-<!--            android:layout_height="60dp"-->
-<!--            android:ems="10"-->
-<!--            android:hint="Additional Notes"/>-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

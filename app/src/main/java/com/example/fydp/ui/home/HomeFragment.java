@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment {
                                         Intent intent = new Intent(getActivity(), Dispense.class);
                                         String hTime = time.substring(indexOfT + 1, indexOfT + 3);
                                         String mTime = time.substring(indexOfT + 3, indexOfT + 6);
-                                        int temp = Integer.parseInt(hTime) - 5;
+                                        int temp = Integer.parseInt(hTime) - 4;
                                         if (temp < 0) {
                                             temp += 24;
                                         }
