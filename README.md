@@ -55,7 +55,9 @@ To design and build a smart pill dispenser system that:
 
 ## 📷 Screenshots & Demo
 
-_Add screenshots or a short demo video link here. For now, check out the [project website](https://medicalpilldispenser.wordpress.com/) for visuals._
+![Alt text](demo/poster.png)
+<img src="demo/poster.png" width="500"/>
+_Check out the [project website](https://medicalpilldispenser.wordpress.com/) for visuals._
 
 ---
 
